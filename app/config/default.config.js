@@ -18,8 +18,11 @@ module.exports = {
     INIT_LAST_LOGIN: "2000-01-01",
     PRICE: /^[0-9]+[.][0-9]{2}$/,
     INIT_BALANCE: "0.00",
-    INIT_ISPAID: 1,
-    NOTPAID: 0,
+
+
+    INIT_ISPUBLIC: 0,
+    NOTPUBLIC: 1,
+
     INIT_STATUS: 1,
     DISABLE_STATUS: 0,
 

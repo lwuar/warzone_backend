@@ -20,13 +20,17 @@ router.get("/getProfile",
     (req, res, next) => auth.verifyToken(req, res, next),
     basic.getProfile);
 
-router.post("/updateProfile",
+router.put("/updateProfile",
     body('username').isString().optional(),
     body('nickname').isString().optional(),
     body('account_level').isInt().optional(),
     (req, res, next) => auth.verifyToken(req, res, next),
     basic.updateProfile);
 
+router.put("/updatePassword",
+    body('new_cipher').isString(),
+    (req, res, next) => auth.verifyToken(req, res, next),
+    basic.updatePassword);
 
 
 module.exports = router;

@@ -18,11 +18,11 @@ CREATE TABLE user_table (
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 AUTO_INCREMENT=5;
 
 
-CREATE TABLE blog_info (
+CREATE TABLE blog_table (
     bid INT NOT NULL AUTO_INCREMENT,
     comment_bid INT DEFAULT 0, 
     author_uid INT,
-    blog_info VARCHAR(255) NOT NULL,
+    blog_info TEXT NOT NULL,
 	blog_status TINYINT NOT NULL,
     blog_location VARCHAR(255) NOT NULL,
     blog_thumbs INT DEFAULT 0,
@@ -32,4 +32,3 @@ CREATE TABLE blog_info (
     FOREIGN KEY (author_uid)
 		REFERENCES user_table (uid)		
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 AUTO_INCREMENT=5;
-

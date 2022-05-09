@@ -83,7 +83,7 @@ User.validateUsername = async(username) => {
 };
 
 
-User.getByUsername = (username, result) => {
+User.getByUsername = async(username, result) => {
     sql.query(`SELECT  
     uid,
     username,
@@ -174,42 +174,8 @@ User.updateLoginTimeByUid = (uid, result) => {
 };
 
 
-User.updateCredentialByUsername = (username, user, result) => {
 
-    sqlScript = " UPDATE user_table SET ";
-
-    arr = [];
-
-    sqlScript += "pw_hash = ? , ";
-    arr.push(user.pw_hash);
-
-    sqlScript += "salt = ? , ";
-    arr.push(user.salt);
-
-
-    sqlScript += "date_modified = ? WHERE  (username = ?)";
-    arr.push(user.date_modified);
-    arr.push(username);
-
-
-    sql.query(sqlScript, arr, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        if (res.affectedRows == 0) {
-            // not found User with the id
-            result({ kind: "not_found" }, null);
-            return;
-        }
-
-        result(null, "okay");
-    });
-};
-
-User.updateCredentialByUid = (uid, user, result) => {
+User.updatePasswordByUid = (uid, user, result) => {
     sqlScript = " UPDATE user_table SET ";
 
     arr = [];

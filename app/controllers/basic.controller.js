@@ -11,7 +11,7 @@ const auth = require("../helper/auth.helper.js");
 
 
 
-exports.login = (req, res) => {
+exports.login = async(req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -146,12 +146,13 @@ exports.register = async(req, res) => {
 }
 
 exports.getProfile = async(req, res) => {
+    // #swagger.tags = ['Basic']
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    // #swagger.tags = ['Basic']
     User.getByUid(req.uid, (err, data) => {
         if (err)
             return res.status(500).send({
@@ -176,7 +177,6 @@ exports.updateProfile = async(req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
     const user = new User({
         username: req.body.username || null,
         nickname: req.body.nickname || null,
@@ -192,7 +192,38 @@ exports.updateProfile = async(req, res) => {
             });
         else {
             return res.send({
-                message: "Update success!"
+                message: "Update profile success!"
+            })
+        };
+    });
+}
+
+exports.updatePassword = async(req, res) => {
+
+    // #swagger.tags = ['Basic']
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const [pw_hash, salt] = myCrypto.getPasswordHash(req.body.new_cipher);
+
+    const user = new User({
+        pw_hash: pw_hash,
+        salt: salt,
+        date_modified: new CurDate().now,
+    })
+
+
+    User.updatePasswordByUid(req.uid, user, (err) => {
+        if (err)
+            return res.status(500).send({
+                message: err.message || "An error occurred while retrieving user."
+            });
+        else {
+            return res.send({
+                message: "Update password success!"
             })
         };
     });
