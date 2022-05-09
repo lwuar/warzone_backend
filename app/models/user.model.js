@@ -112,7 +112,7 @@ User.getByUsername = (username, result) => {
     });
 };
 
-User.updatePersonalInfoByUid = (user_uid, user, result) => {
+User.updateProfileByUid = (user_uid, user, result) => {
 
     sqlScript = " UPDATE user_table SET ";
 
@@ -126,10 +126,10 @@ User.updatePersonalInfoByUid = (user_uid, user, result) => {
         arr.push(user.nickname);
     }
     if (user.account_status != null) {
-        sqlScript += "account_status = ? , ";
-        arr.push(user.account_status);
+        sqlScript += "account_level = ? , ";
+        arr.push(user.account_level);
     }
-    sqlScript += "date_modified = ? WHERE  (user_uid = ?)";
+    sqlScript += "date_modified = ? WHERE  (uid = ?)";
     arr.push(user.date_modified);
     arr.push(user_uid);
     if (result) {

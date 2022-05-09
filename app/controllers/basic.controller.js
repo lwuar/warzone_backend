@@ -9,10 +9,7 @@ const myCrypto = require('../helper/crypto.helper.js');
 const { ADMIN_USER, GOV_USER, BASIC_USER } = require("../config/default.config.js");
 const auth = require("../helper/auth.helper.js");
 
-// const session = require('../helper/session.helper.js');
-// const redis = require('redis');
-// const mail = require("../helper/mail.helper.js");
-// const fs = require('fs');
+
 
 exports.login = (req, res) => {
     const errors = validationResult(req);
@@ -27,7 +24,6 @@ exports.login = (req, res) => {
                 schema: {
                 "username": "user1",
                 "pw_cipher": "Abcd1234",
-
                 }
         } */
 
@@ -164,7 +160,40 @@ exports.getProfile = async(req, res) => {
         else {
             delete data.pw_hash;
             delete data.salt;
-            return res.send(data)
+            return res.send({
+                message: "success",
+                payload: data
+            })
+        };
+    });
+}
+
+exports.updateProfile = async(req, res) => {
+
+    // #swagger.tags = ['Basic']
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const user = new User({
+        username: req.body.username || null,
+        nickname: req.body.nickname || null,
+        account_level: req.body.account_level || null,
+        date_modified: new CurDate().now,
+    })
+
+
+    User.updateProfileByUid(req.uid, user, (err) => {
+        if (err)
+            return res.status(500).send({
+                message: err.message || "An error occurred while retrieving user."
+            });
+        else {
+            return res.send({
+                message: "Update success!"
+            })
         };
     });
 }

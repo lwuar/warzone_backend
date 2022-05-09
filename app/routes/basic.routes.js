@@ -6,8 +6,6 @@ const auth = require("../helper/auth.helper");
 router.post("/login",
     body('username').isString(),
     body('pw_cipher').isString(),
-    // body('g-recaptcha-response').optional().isString(),
-    // auth.captchaCheck,
     basic.login);
 
 
@@ -21,5 +19,14 @@ router.post("/register",
 router.get("/getProfile",
     (req, res, next) => auth.verifyToken(req, res, next),
     basic.getProfile);
+
+router.post("/updateProfile",
+    body('username').isString().optional(),
+    body('nickname').isString().optional(),
+    body('account_level').isInt().optional(),
+    (req, res, next) => auth.verifyToken(req, res, next),
+    basic.updateProfile);
+
+
 
 module.exports = router;
