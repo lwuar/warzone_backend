@@ -20,7 +20,7 @@ exports.login = async(req, res) => {
 
     /*    #swagger.parameters['obj'] = {
                 in: 'body',
-                description: 'login user.',
+                description: 'Allow user login on mobile phone. A Json Web Token is stored in cookie as an access token for authentication. Life time of token is set to 1 day',
                 schema: {
                 "username": "user1",
                 "pw_cipher": "Abcd1234",
@@ -90,7 +90,7 @@ exports.register = async(req, res) => {
 
     /*    #swagger.parameters['obj'] = {
             in: 'body',
-            description: 'register user.',
+            description: 'Allow user to register.',
             schema: {
             "username": "user1",
             "pw_cipher": "Abcd1234",
@@ -172,7 +172,15 @@ exports.getProfile = async(req, res) => {
 exports.updateProfile = async(req, res) => {
 
     // #swagger.tags = ['Basic']
-
+    /*    #swagger.parameters['obj'] = {
+            in: 'body',
+            description: 'Update user profile information, which are the username, the nickname and the account level. All these attributes are optional',
+            schema: {
+            "username": "newuser1",
+             "nickname": "newuser1Nickname",
+             "account_level":2
+            }
+    } */
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -201,7 +209,13 @@ exports.updateProfile = async(req, res) => {
 exports.updatePassword = async(req, res) => {
 
     // #swagger.tags = ['Basic']
-
+    /*    #swagger.parameters['obj'] = {
+                in: 'body',
+                description: 'Allow user to update password. Authentication is done by JWT',
+                schema: {
+                "new_cipher": "newAbcd1234"
+                }
+        } */
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });

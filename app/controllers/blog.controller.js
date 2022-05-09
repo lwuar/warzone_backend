@@ -18,6 +18,16 @@ exports.writeOwnBlog = async(req, res) => {
 
     // #swagger.tags = ['Blog Others']
 
+    /*    #swagger.parameters['obj'] = {
+             in: 'body',
+             description: 'Allow users to write their own new blog. comment_bid is optional. If not null, then it is a comment to other blog. blog_info is the content of blog. TODO: Location need to be confirmed with Map developer',
+             schema: {
+             "comment_bid": "user1",
+             "blog_info": "Abcd1234",
+             "blog_location": "clear water bay, hk",
+             }
+     } */
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -139,7 +149,15 @@ exports.readBlogTree = async(req, res) => {
 
 exports.updateOwnBlog = async(req, res) => {
     // #swagger.tags = ['Blog Others']
-
+    /*    #swagger.parameters['obj'] = {
+               in: 'body',
+               description: 'Allow users to update their own blog. All are optional',
+               schema: {
+               "comment_bid": "user1",
+               "blog_info": "Abcd1234",
+               "blog_location": "clear water bay, hk",
+               }
+       } */
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -169,6 +187,15 @@ exports.updateOwnBlog = async(req, res) => {
 
 exports.thumbsAddOnBlog = async(req, res) => {
     // #swagger.tags = ['Blog Thumb']
+    /*    #swagger.parameters['obj'] = {
+               in: 'body',
+               description: 'Allow user to thumb up or down for a blog or comment. bid is the corresponding id of blog. thumbsChange indicates the thumb, true for up and false for down. The total count of thumbs will be added or deducted by 1',
+               schema: {
+               "bid": 5,
+               "thumbsChange": true,
+           
+               }
+       } */
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -221,6 +248,13 @@ exports.thumbsAddOnBlog = async(req, res) => {
 
 exports.thumbsRemoveOnBlog = async(req, res) => {
     // #swagger.tags = ['Blog Thumb']
+    /*    #swagger.parameters['obj'] = {
+                   in: 'body',
+                   description: 'Allow user to remove their thumb up or down for a blog or comment. bid is the corresponding id of blog. The total count will be restored',
+                   schema: {
+                   "bid": 5,
+                   }
+           } */
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -272,7 +306,13 @@ exports.thumbsRemoveOnBlog = async(req, res) => {
 
 exports.deleteOwnBlog = async(req, res) => {
     // #swagger.tags = ['Blog Others']
-
+    /*    #swagger.parameters['obj'] = {
+                    in: 'body',
+                    description: 'Allow user to delete their blog or comment. bid is the corresponding id of blog. However, once there is a comment, it may not be deleted now. TODO: Add recursive delete for this part',
+                    schema: {
+                    "bid": 5,
+                    }
+            } */
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

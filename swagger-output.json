@@ -21,7 +21,7 @@
           {
             "name": "obj",
             "in": "body",
-            "description": "login user.",
+            "description": "Allow user login on mobile phone. A Json Web Token is stored in cookie as an access token for authentication. Life time of token is set to 1 day",
             "schema": {
               "type": "object",
               "properties": {
@@ -57,7 +57,7 @@
           {
             "name": "obj",
             "in": "body",
-            "description": "register user.",
+            "description": "Allow user to register.",
             "schema": {
               "type": "object",
               "properties": {
@@ -125,19 +125,23 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Update user profile information, which are the username, the nickname and the account level. All these attributes are optional",
             "schema": {
               "type": "object",
               "properties": {
                 "username": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "newuser1"
                 },
                 "nickname": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "newuser1Nickname"
                 },
                 "account_level": {
-                  "example": "any"
+                  "type": "number",
+                  "example": 2
                 }
               }
             }
@@ -167,13 +171,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Allow user to update password. Authentication is done by JWT",
             "schema": {
               "type": "object",
               "properties": {
                 "new_cipher": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "newAbcd1234"
                 }
               }
             }
@@ -203,19 +209,23 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Allow users to write their own new blog. comment_bid is optional. If not null, then it is a comment to other blog. blog_info is the content of blog. TODO: Location need to be confirmed with Map developer",
             "schema": {
               "type": "object",
               "properties": {
                 "comment_bid": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "user1"
                 },
                 "blog_info": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Abcd1234"
                 },
                 "blog_location": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "clear water bay, hk"
                 }
               }
             }
@@ -319,19 +329,23 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Allow users to update their own blog. All are optional",
             "schema": {
               "type": "object",
               "properties": {
-                "blog_info": {
-                  "example": "any"
+                "comment_bid": {
+                  "type": "string",
+                  "example": "user1"
                 },
-                "blog_status": {
-                  "example": "any"
+                "blog_info": {
+                  "type": "string",
+                  "example": "Abcd1234"
                 },
                 "blog_location": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "clear water bay, hk"
                 }
               }
             }
@@ -358,16 +372,19 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Allow user to thumb up or down for a blog or comment. bid is the corresponding id of blog. thumbsChange indicates the thumb, true for up and false for down. The total count of thumbs will be added or deducted by 1",
             "schema": {
               "type": "object",
               "properties": {
                 "bid": {
-                  "example": "any"
+                  "type": "number",
+                  "example": 5
                 },
                 "thumbsChange": {
-                  "example": "any"
+                  "type": "boolean",
+                  "example": true
                 }
               }
             }
@@ -394,13 +411,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Allow user to remove their thumb up or down for a blog or comment. bid is the corresponding id of blog. The total count will be restored",
             "schema": {
               "type": "object",
               "properties": {
                 "bid": {
-                  "example": "any"
+                  "type": "number",
+                  "example": 5
                 }
               }
             }
@@ -427,13 +446,15 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Allow user to delete their blog or comment. bid is the corresponding id of blog. However, once there is a comment, it may not be deleted now. TODO: Add recursive delete for this part",
             "schema": {
               "type": "object",
               "properties": {
                 "bid": {
-                  "example": "any"
+                  "type": "number",
+                  "example": 5
                 }
               }
             }
