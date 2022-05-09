@@ -2,27 +2,40 @@ const defaultConfig = require("../config/default.config.js");
 const busiConfig = require("../config/business.config.js");
 const CurDate = require("./date.helper.js");
 var jwt = require('jsonwebtoken');
-
+var crypto = require('crypto');
 // Google Auth
 // const { OAuth2Client } = require('google-auth-library');
 const CLIENT_ID = busiConfig.CLIENT_ID;
 // const client = new OAuth2Client(CLIENT_ID);
 // const fetch = require("isomorphic-fetch");
 
+function getToken(uid, username, account_level) {
+    nounce = crypto.randomBytes(16).toString('hex');
+    const token = jwt.sign({
+        token_uid: uid,
+        token_username: username,
+        token_account_level: account_level,
+        token_nounce: nounce
+    }, "YOUR_SECRET_KEY", {
+        expiresIn: '1d'
+    });
+    return token;
+}
 
-function auth(req, res, next) {
+function verifyToken(req, res, next) {
 
     try {
         const token = req.cookies.access_token;
+        console.log(token);
         const data = jwt.verify(token, "YOUR_SECRET_KEY");
         // Almost done
-        req.uid = data.uid;
-        req.username = data.username;
-        req.account_level = data.account_level;
-        req.loginTime = data.loginTime;
-        req.nounce = data.nounce;
-        if (req.loginTime - new CurDate().now > 1000 * 60)
-            throw Error("Token time out. Please login again");
+        console.log("verify data is %s", data);
+
+        req.uid = data.token_uid;
+        req.username = data.token_username;
+        req.account_level = data.token_account_level;
+        req.nounce = data.token_nounce;
+
         return next();
     } catch (err) {
         console.log(err);
@@ -80,6 +93,7 @@ function emailCheck(email) {
 module.exports = {
     // tokenCheck,
     emailCheck,
-    auth
+    verifyToken,
+    getToken
     // captchaCheck
 }

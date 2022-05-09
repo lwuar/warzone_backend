@@ -19,7 +19,7 @@ router.post("/register",
     basic.register);
 
 router.get("/getProfile",
-    (req, res, next) => auth.auth(req, res, next),
+    (req, res, next) => auth.verifyToken(req, res, next),
     basic.getProfile);
 
 module.exports = router;

@@ -7,8 +7,8 @@ const CurDate = require("../helper/date.helper.js");
 const { validationResult } = require('express-validator');
 const myCrypto = require('../helper/crypto.helper.js');
 const { ADMIN_USER, GOV_USER, BASIC_USER } = require("../config/default.config.js");
+const auth = require("../helper/auth.helper.js");
 
-// const auth = require('../helper/auth.helper.js');
 // const session = require('../helper/session.helper.js');
 // const redis = require('redis');
 // const mail = require("../helper/mail.helper.js");
@@ -60,15 +60,14 @@ exports.login = (req, res) => {
                     });
                 }
 
-                User.updateLoginTimeByUid(data.uid, (err, data) => {
+                User.updateLoginTimeByUid(data.uid, (err) => {
                     if (err) {
                         console.log("error: ", err);
                         return res.status(500).send({
                             message: "wrong password or no such account"
                         });
                     } else {
-                        currentloginTIme = new CurDate().now
-                        token = myCrypto.getToken(data.uid, data.username, currentloginTIme);
+                        token = auth.getToken(data.uid, data.username, data.account_level);
 
                         return res.cookie("access_token", token, {
                                 httpOnly: true,
@@ -157,7 +156,6 @@ exports.getProfile = async(req, res) => {
     }
 
     // #swagger.tags = ['Basic']
-
     User.getByUid(req.uid, (err, data) => {
         if (err)
             return res.status(500).send({
