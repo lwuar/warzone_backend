@@ -26,6 +26,7 @@ CREATE TABLE blog_table (
 	blog_status TINYINT NOT NULL,
     blog_location VARCHAR(255) NOT NULL,
     blog_thumbs INT DEFAULT 0,
+    thumb_author_list TEXT, 
     date_modified DATETIME NOT NULL,
     date_creation DATETIME NOT NULL,
     PRIMARY KEY (bid),

@@ -27,10 +27,14 @@ router.put("/updateOwnBlog",
     body('blog_location').isString().optional(),
     blog.updateOwnBlog);
 
-router.put("/thumbsChangeOnBlog",
+router.put("/thumbsAddOnBlog",
     body('bid').isInt(),
     body('thumbsChange').isBoolean(),
-    blog.thumbsChangeOnBlog);
+    blog.thumbsAddOnBlog);
+
+router.put("/thumbsRemoveOnBlog",
+    body('bid').isInt(),
+    blog.thumbsRemoveOnBlog);
 
 router.delete("/delete",
     body('bid').isInt(),

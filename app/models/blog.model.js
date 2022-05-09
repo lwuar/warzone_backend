@@ -12,6 +12,7 @@ const Blog = function(blog) {
     this.blog_status = blog.blog_status;
     this.blog_location = blog.blog_location;
     this.blog_thumbs = blog.blog_thumbs;
+    this.thumb_author_list = blog.thumb_author_list;
     this.date_modified = blog.date_modified;
     this.date_creation = blog.date_creation;
 };
@@ -41,6 +42,7 @@ Blog.getByAttrs = async(blog, result) => {
     blog_status,
     blog_location,
     blog_thumbs,
+    thumb_author_list,
     date_modified,
     date_creation
      FROM blog_table WHERE 1=1 `;
@@ -78,7 +80,7 @@ Blog.getByAttrs = async(blog, result) => {
 
         if (res.length) {
             //console.log("found user: ", res[0]);
-            result(null, res[0]);
+            result(null, res);
             return;
         }
 
@@ -130,17 +132,12 @@ Blog.updateOwn = async(blog, result) => {
 };
 
 
-Blog.updateThumbs = async(thumbsChange, blog, result) => {
 
-    sqlScript = " UPDATE blog_table SET date_modified = ?, blog_thumbs = (SELECT blog_thumbs FROM blog_table WHERE bid = ? and blog_status = ?  ) ";
-    if (thumbsChange == true) {
-        sqlScript += " + 1";
-    } else {
-        sqlScript += " - 1";
 
-    }
-    sqlScript += " WHERE  (bid = ? and blog_status = ? )";
-    arr = [blog.date_modified, blog.bid, blog.blog_status, blog.bid, blog.blog_status]
+Blog.updateThumb = async(blog, result) => {
+
+    sqlScript = " UPDATE blog_table SET thumb_author_list = ?, date_modified = ?, blog_thumbs = ?  WHERE  (bid = ? and blog_status = ? )";
+    arr = [blog.thumb_author_list, blog.date_modified, blog.blog_thumbs, blog.bid, blog.blog_status]
     sql.query(sqlScript, arr, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -157,6 +154,7 @@ Blog.updateThumbs = async(thumbsChange, blog, result) => {
         result(null, "okay");
     });
 };
+
 
 
 

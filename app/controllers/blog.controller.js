@@ -9,6 +9,7 @@ const { validationResult } = require('express-validator');
 const myCrypto = require('../helper/crypto.helper.js');
 const { ADMIN_USER, GOV_USER, BASIC_USER, INIT_ISPUBLIC } = require("../config/default.config.js");
 const auth = require("../helper/auth.helper.js");
+const { stringify } = require("querystring");
 
 
 // write blog or comment
@@ -31,10 +32,11 @@ exports.writeOwnBlog = async(req, res) => {
         author_uid: req.uid,
         blog_info: req.body.blog_info,
         blog_status: defaultConfig.INIT_ISPUBLIC,
-        blog_location: req.body.location,
-        blog_thumbs: new CurDate().now,
+        blog_location: req.body.blog_location,
+        blog_thumbs: defaultConfig.INIT_THUMBS,
+        thumb_author_list: defaultConfig.INIT_THUMB_AUTHOR_LIST,
         date_modified: new CurDate().now,
-        date_creation: defaultConfig.INIT_LAST_LOGIN // an impossible date means user haven't logged in
+        date_creation: new CurDate().now
     });
 
     Blog.create(blog, (err) => {
@@ -126,7 +128,6 @@ exports.readBlogTree = async(req, res) => {
                 message: err.message || "An error occurred while retrieving blog."
             });
         else {
-            console.log("readblog tree")
             return res.send({
                 message: "Read blog tree success!",
                 payload: data
@@ -158,7 +159,6 @@ exports.updateOwnBlog = async(req, res) => {
                 message: err.message || "An error occurred while retrieving blog."
             });
         else {
-            console.log("readblog tree")
             return res.send({
                 message: "Update own blog success!",
                 payload: data
@@ -167,34 +167,108 @@ exports.updateOwnBlog = async(req, res) => {
     });
 }
 
-exports.thumbsChangeOnBlog = async(req, res) => {
-    // #swagger.tags = ['Blog Others']
-
+exports.thumbsAddOnBlog = async(req, res) => {
+    // #swagger.tags = ['Blog Thumb']
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
+
     const blog = new Blog({
         bid: req.body.bid,
         blog_status: defaultConfig.INIT_ISPUBLIC,
         date_modified: new CurDate().now
     });
-
-    Blog.updateThumbs(req.body.thumbsChange, blog, (err, data) => {
+    Blog.getByAttrs(blog, (err, data) => {
         if (err)
             return res.status(500).send({
                 message: err.message || "An error occurred while retrieving blog."
             });
         else {
-            console.log("readblog tree")
-            return res.send({
-                message: "Update own blog success!",
-                payload: data
-            })
+            curBlog = data[0];
+            thumbAuthorList = JSON.parse(curBlog["thumb_author_list"]);
+
+            if (thumbAuthorList.hasOwnProperty(req.uid) && thumbAuthorList[req.uid] != null) {
+                // have given thumb before
+                return res.status(500).send({
+                    message: "The user have gave thumb before."
+                });
+            } else {
+                // havent' given thumb yet
+                change = req.body.thumbsChange ? 1 : -1
+                thumbAuthorList[req.uid] = change;
+                curBlog.blog_thumbs += change;
+                curBlog.thumb_author_list = JSON.stringify(thumbAuthorList);
+
+                Blog.updateThumb(curBlog, (err, data) => {
+                    if (err)
+                        return res.status(500).send({
+                            message: err.message || "An error occurred while adding blog thumbs."
+                        });
+                    else {
+                        return res.send({
+                            message: "Add blog thumb success!",
+                            payload: data
+                        })
+                    };
+                });
+            }
         };
-    });
+    })
 }
+
+
+exports.thumbsRemoveOnBlog = async(req, res) => {
+    // #swagger.tags = ['Blog Thumb']
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const blog = new Blog({
+        bid: req.body.bid,
+        blog_status: defaultConfig.INIT_ISPUBLIC,
+        date_modified: new CurDate().now
+    });
+    Blog.getByAttrs(blog, (err, data) => {
+        if (err)
+            return res.status(500).send({
+                message: err.message || "An error occurred while retrieving blog."
+            });
+        else {
+
+            curBlog = data[0];
+            thumbAuthorList = JSON.parse(curBlog["thumb_author_list"]);
+
+            if (thumbAuthorList.hasOwnProperty(req.uid) && thumbAuthorList[req.uid] != null) {
+                // have given thumb before
+                change = thumbAuthorList[req.uid];
+                curBlog.blog_thumbs -= change;
+                thumbAuthorList[req.uid] = null;
+                curBlog.thumb_author_list = JSON.stringify(thumbAuthorList);
+                Blog.updateThumb(curBlog, (err, data) => {
+                    if (err)
+                        return res.status(500).send({
+                            message: err.message || "An error occurred while removing blog thumbs."
+                        });
+                    else {
+                        return res.send({
+                            message: "Remove blog thumb success!",
+                            payload: data
+                        })
+                    };
+                })
+            } else {
+                return res.status(500).send({
+                    message: "The user haven't given a thumb before."
+                });
+            }
+        };
+    })
+}
+
 
 exports.deleteOwnBlog = async(req, res) => {
     // #swagger.tags = ['Blog Others']
@@ -209,16 +283,14 @@ exports.deleteOwnBlog = async(req, res) => {
         author_uid: req.uid
     });
 
-    Blog.delete(blog, (err, data) => {
+    Blog.delete(blog, (err) => {
         if (err)
             return res.status(500).send({
-                message: err.message || "An error occurred while retrieving blog."
+                message: err.message || "An error occurred while deleting blog."
             });
         else {
-            console.log("readblog tree")
             return res.send({
-                message: "Update own blog success!",
-                payload: data
+                message: "Delete own blog success!",
             })
         };
     });

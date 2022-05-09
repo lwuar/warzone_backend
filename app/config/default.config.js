@@ -17,7 +17,9 @@ module.exports = {
     CONTENT: [],
     INIT_LAST_LOGIN: "2000-01-01",
     PRICE: /^[0-9]+[.][0-9]{2}$/,
-    INIT_BALANCE: "0.00",
+
+
+    INIT_THUMBS: 0,
 
 
     INIT_ISPUBLIC: 0,
@@ -26,7 +28,7 @@ module.exports = {
     INIT_STATUS: 1,
     DISABLE_STATUS: 0,
 
-
+    INIT_THUMB_AUTHOR_LIST: "[]",
 
     // security
     PASSWORD_REGEX: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,32}$/,
