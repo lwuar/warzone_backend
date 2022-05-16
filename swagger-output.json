@@ -250,7 +250,18 @@
           "Blog Read"
         ],
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -280,6 +291,16 @@
             "name": "comment_bid",
             "in": "query",
             "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {
@@ -304,6 +325,16 @@
         "parameters": [
           {
             "name": "comment_bid",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
             "in": "query",
             "type": "string"
           }

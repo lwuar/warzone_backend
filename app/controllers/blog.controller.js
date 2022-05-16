@@ -10,6 +10,7 @@ const myCrypto = require('../helper/crypto.helper.js');
 const { ADMIN_USER, GOV_USER, BASIC_USER, INIT_ISPUBLIC } = require("../config/default.config.js");
 const auth = require("../helper/auth.helper.js");
 const { stringify } = require("querystring");
+const { query } = require("../models/db.js");
 
 
 // write blog or comment
@@ -75,7 +76,7 @@ exports.readOwnBlog = async(req, res) => {
     const blog = new Blog({
         author_uid: req.uid,
     })
-    Blog.getByAttrs(blog, (err, data) => {
+    Blog.getByAttrs(blog, req.query.page || defaultConfig.PAGE, req.query.limit || defaultConfig.LIMIT, (err, data) => {
         if (err)
             return res.status(500).send({
                 message: err.message || "An error occurred while retrieving blog."
@@ -87,6 +88,7 @@ exports.readOwnBlog = async(req, res) => {
             })
         };
     });
+
 }
 
 
@@ -104,7 +106,7 @@ exports.readPublicBlog = async(req, res) => {
         comment_bid: req.query.comment_bid || null,
         blog_status: INIT_ISPUBLIC
     })
-    Blog.getByAttrs(blog, (err, data) => {
+    Blog.getByAttrs(blog, req.query.page || defaultConfig.PAGE, req.query.limit || defaultConfig.LIMIT, (err, data) => {
         if (err)
             return res.status(500).send({
                 message: err.message || "An error occurred while retrieving blog."
@@ -132,7 +134,7 @@ exports.readBlogTree = async(req, res) => {
         comment_bid: req.query.comment_bid,
         blog_status: INIT_ISPUBLIC
     })
-    Blog.getByAttrs(blog, (err, data) => {
+    Blog.getByAttrs(blog, req.query.page || defaultConfig.PAGE, req.query.limit || defaultConfig.LIMIT, (err, data) => {
         if (err)
             return res.status(500).send({
                 message: err.message || "An error occurred while retrieving blog."

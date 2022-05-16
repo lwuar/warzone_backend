@@ -32,22 +32,25 @@ Blog.create = (newBlog, result) => {
 
 
 
-Blog.getByAttrs = async(blog, result) => {
+Blog.getByAttrs = async(blog, page, limit, result) => {
 
-    sqlScript = `SELECT 
-    bid,
-    comment_bid,
-    author_uid,
-    blog_info,
-    blog_status,
-    blog_location,
-    blog_thumbs,
-    thumb_author_list,
-    date_modified,
-    date_creation
-     FROM blog_table WHERE 1=1 `;
+    // sqlScript = `SELECT 
+    // bid,
+    // comment_bid,
+    // author_uid,
+    // blog_info,
+    // blog_status,
+    // blog_location,
+    // blog_thumbs,
+    // thumb_author_list,
+    // date_modified,
+    // date_creation
+    //  FROM blog_table WHERE 1=1 `;
 
-    arr = [];
+    let sqlScript = " FROM blog_table  WHERE 1=1 ";
+
+    let arr = [];
+
     if (blog.bid != null) {
         sqlScript += " AND bid = ? ";
         arr.push(blog.bid);
@@ -69,24 +72,12 @@ Blog.getByAttrs = async(blog, result) => {
         arr.push(blog.blog_location);
     }
 
-    sqlScript += "ORDER BY date_creation DESC LIMIT 20";
+    const sqlCountHeader = "COUNT(DISTINCT bid)";
+    const sqlGetHeader = " DISTINCT  bid, comment_bid, author_uid, blog_info, blog_status, blog_location,  blog_thumbs,  thumb_author_list, date_modified, date_creation";
+    const orderBy = "date_creation";
 
-    sql.query(sqlScript, arr, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+    query("blog_table", page, arr, sqlCountHeader, sqlGetHeader, sqlScript, result, orderBy, limit);
 
-        if (res.length) {
-            //console.log("found user: ", res[0]);
-            result(null, res);
-            return;
-        }
-
-        // not found User with the user_uid
-        result({ kind: "not_found" }, null);
-    });
 };
 
 

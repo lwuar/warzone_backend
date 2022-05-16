@@ -1,5 +1,5 @@
 module.exports = {
-    LIMIT: 5,
+    LIMIT: 10,
     START: 1,
     MAX_PRICE: 0,
     BOOK_STATUS: 0,
@@ -12,7 +12,7 @@ module.exports = {
 
 
 
-    PAGE_COUNT: 0,
+    PAGE: 0,
     MAX_PAGE: 0,
     CONTENT: [],
     INIT_LAST_LOGIN: "2000-01-01",

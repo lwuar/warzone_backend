@@ -10,15 +10,21 @@ router.post("/writeOwnBlog",
     blog.writeOwnBlog);
 
 router.get("/readOwnBlog",
+    query('page').isInt().optional(),
+    query('limit').isInt().optional(),
     blog.readOwnBlog);
 
 router.get("/readPublicBlog",
     query('author_uid').isInt().optional(),
     query('comment_bid').isInt().optional(),
+    query('page').isInt().optional(),
+    query('limit').isInt().optional(),
     blog.readPublicBlog);
 
 router.get("/readBlogTree",
     query('comment_bid').isInt(),
+    query('page').isInt().optional(),
+    query('limit').isInt().optional(),
     blog.readBlogTree);
 
 router.put("/updateOwnBlog",

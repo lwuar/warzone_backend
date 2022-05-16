@@ -58,7 +58,7 @@ module.exports = function query(tableName, page, arr, sqlCountHeader, sqlGetHead
             });
         } else {
             var jsonResult = {
-                'page_count': defaultConfig.PAGE_COUNT,
+                'page_count': defaultConfig.PAGE,
                 'page_number': page_num,
                 'max_page': defaultConfig.MAX_PAGE,
                 'content': defaultConfig.CONTENT
