@@ -42,6 +42,7 @@ exports.writeOwnBlog = async(req, res) => {
     const blog = new Blog({
         comment_bid: req.body.comment_bid || null,
         author_uid: req.uid,
+        author_name: req.username,
         blog_info: req.body.blog_info,
         blog_status: defaultConfig.INIT_ISPUBLIC,
         blog_location: req.body.blog_location,

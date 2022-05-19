@@ -17,11 +17,11 @@ CREATE TABLE user_table (
     UNIQUE KEY (username)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 AUTO_INCREMENT=5;
 
-
 CREATE TABLE blog_table (
     bid INT NOT NULL AUTO_INCREMENT,
     comment_bid INT DEFAULT 0, 
     author_uid INT,
+    author_name VARCHAR(60) NOT NULL,
     blog_info TEXT NOT NULL,
 	blog_status TINYINT NOT NULL,
     blog_location VARCHAR(255) NOT NULL,

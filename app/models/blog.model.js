@@ -8,6 +8,7 @@ const Blog = function(blog) {
     this.bid = blog.bid;
     this.comment_bid = blog.comment_bid;
     this.author_uid = blog.author_uid;
+    this.author_name = blog.author_name;
     this.blog_info = blog.blog_info;
     this.blog_status = blog.blog_status;
     this.blog_location = blog.blog_location;
@@ -64,7 +65,7 @@ Blog.getAll = async(blog, page, limit, result) => {
         arr.push(blog.blog_type);
     }
     const sqlCountHeader = "COUNT(DISTINCT bid)";
-    const sqlGetHeader = " DISTINCT  bid, comment_bid, author_uid, blog_info, blog_status, blog_location,  blog_thumbs,  thumb_author_list, blog_type, date_modified, date_creation";
+    const sqlGetHeader = " DISTINCT  bid, comment_bid, author_uid, author_name, blog_info, blog_status, blog_location,  blog_thumbs,  thumb_author_list, blog_type, date_modified, date_creation";
     const orderBy = "date_creation";
 
     query("blog_table", page, arr, sqlCountHeader, sqlGetHeader, sqlScript, result, orderBy, limit);
@@ -78,6 +79,7 @@ Blog.getOne = async(blog, result) => {
     bid,
     comment_bid,
     author_uid,
+    author_name,
     blog_info,
     blog_status,
     blog_location,
