@@ -226,6 +226,10 @@
                 "blog_location": {
                   "type": "string",
                   "example": "clear water bay, hk"
+                },
+                "blog_type": {
+                  "type": "string",
+                  "example": "0"
                 }
               }
             }
@@ -289,6 +293,11 @@
           },
           {
             "name": "comment_bid",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "blog_type",
             "in": "query",
             "type": "string"
           },
@@ -368,7 +377,7 @@
               "properties": {
                 "comment_bid": {
                   "type": "string",
-                  "example": "user1"
+                  "example": "5"
                 },
                 "blog_info": {
                   "type": "string",
@@ -377,6 +386,10 @@
                 "blog_location": {
                   "type": "string",
                   "example": "clear water bay, hk"
+                },
+                "blog_type": {
+                  "type": "string",
+                  "example": "1"
                 }
               }
             }

@@ -27,6 +27,7 @@ module.exports = {
 
     INIT_STATUS: 1,
     DISABLE_STATUS: 0,
+    INIT_BLOG_TYPE: 0,
 
     INIT_THUMB_AUTHOR_LIST: "[]",
 

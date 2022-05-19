@@ -26,6 +26,7 @@ exports.writeOwnBlog = async(req, res) => {
              "comment_bid": "user1",
              "blog_info": "Abcd1234",
              "blog_location": "clear water bay, hk",
+             "blog_type":"0"
              }
      } */
 
@@ -46,6 +47,7 @@ exports.writeOwnBlog = async(req, res) => {
         blog_location: req.body.blog_location,
         blog_thumbs: defaultConfig.INIT_THUMBS,
         thumb_author_list: defaultConfig.INIT_THUMB_AUTHOR_LIST,
+        blog_type: req.body.blog_type || defaultConfig.INIT_BLOG_TYPE,
         date_modified: new CurDate().now,
         date_creation: new CurDate().now
     });
@@ -76,7 +78,7 @@ exports.readOwnBlog = async(req, res) => {
     const blog = new Blog({
         author_uid: req.uid,
     })
-    Blog.getByAttrs(blog, req.query.page || defaultConfig.PAGE, req.query.limit || defaultConfig.LIMIT, (err, data) => {
+    Blog.getAll(blog, req.query.page || defaultConfig.PAGE, req.query.limit || defaultConfig.LIMIT, (err, data) => {
         if (err)
             return res.status(500).send({
                 message: err.message || "An error occurred while retrieving blog."
@@ -104,9 +106,10 @@ exports.readPublicBlog = async(req, res) => {
     const blog = new Blog({
         author_uid: req.query.author_uid || null,
         comment_bid: req.query.comment_bid || null,
+        blog_type: req.query.blog_type || null,
         blog_status: INIT_ISPUBLIC
     })
-    Blog.getByAttrs(blog, req.query.page || defaultConfig.PAGE, req.query.limit || defaultConfig.LIMIT, (err, data) => {
+    Blog.getAll(blog, req.query.page || defaultConfig.PAGE, req.query.limit || defaultConfig.LIMIT, (err, data) => {
         if (err)
             return res.status(500).send({
                 message: err.message || "An error occurred while retrieving blog."
@@ -134,7 +137,7 @@ exports.readBlogTree = async(req, res) => {
         comment_bid: req.query.comment_bid,
         blog_status: INIT_ISPUBLIC
     })
-    Blog.getByAttrs(blog, req.query.page || defaultConfig.PAGE, req.query.limit || defaultConfig.LIMIT, (err, data) => {
+    Blog.getAll(blog, req.query.page || defaultConfig.PAGE, req.query.limit || defaultConfig.LIMIT, (err, data) => {
         if (err)
             return res.status(500).send({
                 message: err.message || "An error occurred while retrieving blog."
@@ -155,9 +158,10 @@ exports.updateOwnBlog = async(req, res) => {
                in: 'body',
                description: 'Allow users to update their own blog. All are optional',
                schema: {
-               "comment_bid": "user1",
+               "comment_bid": "5",
                "blog_info": "Abcd1234",
                "blog_location": "clear water bay, hk",
+               "blog_type":"1"
                }
        } */
 
@@ -168,9 +172,11 @@ exports.updateOwnBlog = async(req, res) => {
 
     const blog = new Blog({
         author_uid: req.uid,
-        blog_info: req.body.blog_info,
-        blog_status: req.body.blog_status,
-        blog_location: req.body.blog_location
+        blog_info: req.body.blog_info || null,
+        blog_status: req.body.blog_status || null,
+        blog_location: req.body.blog_location || null,
+        blog_type: req.body.blog_type || null
+
     });
 
     Blog.updateOwn(blog, (err, data) => {
@@ -209,13 +215,13 @@ exports.thumbsAddOnBlog = async(req, res) => {
         blog_status: defaultConfig.INIT_ISPUBLIC,
         date_modified: new CurDate().now
     });
-    Blog.getByAttrs(blog, (err, data) => {
+    Blog.getOne(blog, (err, data) => {
         if (err)
             return res.status(500).send({
                 message: err.message || "An error occurred while retrieving blog."
             });
         else {
-            curBlog = data[0];
+            curBlog = data;
             thumbAuthorList = JSON.parse(curBlog["thumb_author_list"]);
 
             if (thumbAuthorList.hasOwnProperty(req.uid) && thumbAuthorList[req.uid] != null) {
@@ -268,14 +274,14 @@ exports.thumbsRemoveOnBlog = async(req, res) => {
         blog_status: defaultConfig.INIT_ISPUBLIC,
         date_modified: new CurDate().now
     });
-    Blog.getByAttrs(blog, (err, data) => {
+    Blog.getOne(blog, (err, data) => {
         if (err)
             return res.status(500).send({
                 message: err.message || "An error occurred while retrieving blog."
             });
         else {
 
-            curBlog = data[0];
+            curBlog = data;
             thumbAuthorList = JSON.parse(curBlog["thumb_author_list"]);
 
             if (thumbAuthorList.hasOwnProperty(req.uid) && thumbAuthorList[req.uid] != null) {

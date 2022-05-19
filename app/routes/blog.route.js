@@ -7,6 +7,7 @@ router.post("/writeOwnBlog",
     body('comment_bid').isInt().optional(),
     body('blog_info').isString(),
     body('blog_location').isString(),
+    body('blog_type').isInt().optional(),
     blog.writeOwnBlog);
 
 router.get("/readOwnBlog",
@@ -17,6 +18,7 @@ router.get("/readOwnBlog",
 router.get("/readPublicBlog",
     query('author_uid').isInt().optional(),
     query('comment_bid').isInt().optional(),
+    query('blog_type').isInt().optional(),
     query('page').isInt().optional(),
     query('limit').isInt().optional(),
     blog.readPublicBlog);
@@ -31,6 +33,7 @@ router.put("/updateOwnBlog",
     body('blog_info').isString().optional(),
     body('blog_status').isString().optional(),
     body('blog_location').isString().optional(),
+    body('blog_type').isInt().optional(),
     blog.updateOwnBlog);
 
 router.put("/thumbsAddOnBlog",
