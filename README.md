@@ -16,3 +16,7 @@ To visit the web for Swagger Documentation, ask for host's ip address, and use h
 ## Backend Database Schema
 
 This backend use MySQL database. Schemas are at [here](./archive/warzone_schema.sql).
+
+## Swagger Documentation
+
+You can visit the automatically generated swagger documentation at [here](./swagger-output.json), or once the server is launched, visit the [<domain>:<port>/api-doc]. 
