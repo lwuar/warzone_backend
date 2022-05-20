@@ -1,12 +1,13 @@
 # COMP 4521 Warzone Radar Backend
 
-This is the backend for Android APP Warzone Radar for course PA at HKUST COMP 4521.
+This is the documentation for backend for Android APP Warzone Radar for course PA at HKUST COMP 4521.
 
 
 ## Dependency
 
-Node.JS
-MySQL DB/mariadb
+Node.JS:            v14.17.6
+
+MySQL:           Ver 8.0.27 for Win64 on x86_64 (MySQL Community Server - GPL)
 
 ## Getting Started
 
@@ -19,21 +20,18 @@ To have the configs for database and password, please go to the directory of [co
 
 
 5. To install the server
-```{powershell}
-npm install
-node swagger.js
-node start.js
-
-```
+    ```{powershell}
+    npm install
+    ```
 6. To compile the swgger file
-```{powershell}
-node swagger.js
-```
+    ```{powershell}
+    node swagger.js
+    ```
 
 7. To run the server
-```{powershell}
-node start.js
-```
+    ```{powershell}
+    node start.js
+    ```
 
 8. To visit the web for Swagger Documentation, ask for host's ip address, and use http://<-host-ip->:8090/api-docs/ to visit.
 
@@ -43,4 +41,4 @@ This backend use MySQL database. Schemas are at [here](./archive/warzone_schema.
 
 ## Swagger Documentation
 
-You can visit the automatically generated swagger documentation at [here](./swagger-output.json), or once the server is launched, visit the [<domain>:<port>/api-doc]. 
+You can visit the automatically generated swagger documentation at [here](./swagger-output.json), or once the server is launched, visit the domain:port/api-doc. 

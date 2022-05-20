@@ -1,34 +1,17 @@
 module.exports = {
+    // init value
     LIMIT: 10,
     START: 1,
-    MAX_PRICE: 0,
-    BOOK_STATUS: 0,
-
-    SELL_STATUS_NOT_COLLECTED: 0,
-    SELL_STATUS_IS_COLLECTED: 1,
-    SELL_STATUS_IS_SOLD_NOT_PAID: 2,
-    SELL_STATUS_NOT_SOLD_RETURN: 3,
-    SELL_STATUS_IS_SOLD_IS_PAID: 4,
-
-
-
     PAGE: 0,
     MAX_PAGE: 0,
     CONTENT: [],
     INIT_LAST_LOGIN: "2000-01-01",
-    PRICE: /^[0-9]+[.][0-9]{2}$/,
-
-
     INIT_THUMBS: 0,
-
-
     INIT_ISPUBLIC: 0,
     NOTPUBLIC: 1,
-
     INIT_STATUS: 1,
     DISABLE_STATUS: 0,
     INIT_BLOG_TYPE: 0,
-
     INIT_THUMB_AUTHOR_LIST: "[]",
 
     // security
@@ -37,10 +20,9 @@ module.exports = {
     PASSWORD_LENGTH: 20,
     SYMMETRIC_ALGO: 'aes-256-cbc',
     HASH_ALGO: `sha512`,
-    PASSWORD_RESET_LIFETIME: 600,
 
 
-    // 
+    // user type
     ADMIN_USER: 2,
     GOV_USER: 1,
     BASIC_USER: 0,
@@ -51,7 +33,7 @@ module.exports = {
     LOG_CASHOUT: 2,
     LOG_REFUND: 3,
 
-    //    
+    // regex
     LETTERSPACE_REGEX: /^[a-zA-Z ]*$/,
     LETTERINT_REGEX: /^[a-zA-Z\d]*$/,
     INT_REGEX: /^[\d]*$/,
