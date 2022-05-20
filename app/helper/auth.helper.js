@@ -26,7 +26,6 @@ function verifyToken(req, res, next) {
     try {
         const token = req.cookies.access_token;
 
-        console.log(token)
         const data = jwt.verify(token, "YOUR_SECRET_KEY");
         // Almost done
 

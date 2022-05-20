@@ -181,6 +181,9 @@ exports.updateProfile = async(req, res) => {
              "account_level":2
             }
     } */
+
+    console.log("update profile is", req.body)
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -216,12 +219,15 @@ exports.updatePassword = async(req, res) => {
                 "new_cipher": "newAbcd1234"
                 }
         } */
+    console.log("update password is", req.body)
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
     const [pw_hash, salt] = myCrypto.getPasswordHash(req.body.new_cipher);
+
 
     const user = new User({
         pw_hash: pw_hash,

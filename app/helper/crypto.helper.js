@@ -53,7 +53,8 @@ function getPasswordHash(str) {
     const re = defaultConfig.PASSWORD_REGEX;
     if (re.test(plaintext) == false) {
         // result({ message: "wrong password format" }, null)
-        throw "wrong password format";
+
+        return [null, null];
     }
 
     salt = crypto.randomBytes(16).toString('hex');

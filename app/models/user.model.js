@@ -125,7 +125,7 @@ User.updateProfileByUid = (user_uid, user, result) => {
         sqlScript += "nickname = ? , ";
         arr.push(user.nickname);
     }
-    if (user.account_status != null) {
+    if (user.account_level != null) {
         sqlScript += "account_level = ? , ";
         arr.push(user.account_level);
     }
